@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="fgChar" class="fl-column">
+    <mat-form-field class="grow">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" [formControl]="fgChar.controls.name" />
+      @if (fgChar.controls.name.value) {
+      <button
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="fgChar.controls.name.setValue('')"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      }
+    </mat-form-field>
+    <fieldset>
+      <legend>Class(es)</legend>
+      <ng-container formArrayName="classes">
+        @for (e of fgChar.controls.classes.controls; track e; let index =
+        $index) {
+        <div class="fl-row" [formGroupName]="index">
+          <mat-form-field>
+            <mat-label>Class</mat-label>
+            <input matInput type="text" formControlName="class" />
+
+            @if (e.controls['class']) {
+            <button
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="e.controls['class'].setValue('')"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+            }
+          </mat-form-field>
+          <mat-form-field class="level">
+            <mat-label>Level</mat-label>
+            <input matInput type="number" formControlName="level" />
+          </mat-form-field>
+          <button mat-fab (click)="deleteCharacterClass(index)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+        }
+      </ng-container>
+      <button mat-button (click)="addCharacterClass()">
+        <mat-icon>add</mat-icon>Add
+      </button>
+    </fieldset>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button cdkFocusInitial (click)="save()">Ok</button>
+</mat-dialog-actions>

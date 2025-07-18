@@ -1,0 +1,17 @@
+/* Add application styles & imports to this file! */
+@import '@angular/material/prebuilt-themes/purple-green.css';
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+}
+
+html, body { 
+  height: 100%;
+  max-height: 100vh; 
+}
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,0 +1,6 @@
+@for (item of list; track item.id) {
+<a mat-list-item href="#">{{ item.name }}</a>
+}
+<button mat-button (click)="openCharacterDialog()">
+  <mat-icon>add</mat-icon>Add
+</button>
