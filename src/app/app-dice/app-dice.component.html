@@ -46,7 +46,7 @@
       </mat-form-field>
     </div>
     <fieldset>
-      <legend>Class(es)</legend>
+      <legend>Rolls</legend>
       <ng-container formArrayName="elements">
         @for (e of fgElements.controls; track e; let index = $index) {
         <div class="fl-row" [formGroupName]="index">
@@ -67,7 +67,7 @@
           </mat-form-field>
           <mat-form-field>
             <mat-label>Damage Type</mat-label>
-            <input matInput type="number" formControlName="damageType" />
+            <input matInput type="string" formControlName="damageType" />
           </mat-form-field>
           <button mat-fab (click)="deleteElement(index)">
             <mat-icon>delete</mat-icon>
