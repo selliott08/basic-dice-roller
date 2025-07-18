@@ -13,8 +13,7 @@ import { AppCharacterComponent } from '../app-char/app-char.component';
     MatListModule,
     MatIconModule,
     MatButtonModule,
-    MatDialogModule,
-    AppCharacterComponent,
+    MatDialogModule
   ],
   templateUrl: './app-char-list.component.html',
   styleUrl: './app-char-list.component.scss',
