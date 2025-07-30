@@ -1,4 +1,4 @@
-@for (item of list; track item.id) {
+@for (item of (list$ | async); track item.id) {
 <a mat-list-item href="#">{{ item.name }}</a>
 }
 <button mat-button (click)="openCharacterDialog()">
