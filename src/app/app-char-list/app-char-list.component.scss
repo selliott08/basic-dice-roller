@@ -1,3 +1,19 @@
-button {
+.list-item {
+  display: flex;
+  align-items: center;
+  padding:0.5rem;
+}
+
+.add-btn {
   width: 100%;
+}
+
+.label {
+  flex-grow: 1;
+  
+  ::ng-deep .mdc-button__label {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-wrap: nowrap;
+  }
 }

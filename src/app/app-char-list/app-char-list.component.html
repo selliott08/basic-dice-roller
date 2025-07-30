@@ -1,6 +1,16 @@
 @for (item of (list$ | async); track item.id) {
-<a mat-list-item href="#">{{ item.name }}</a>
+<div mat-list-item class="list-item">
+  <button matButton class="label" (click)="openCharacterDialog()">
+    {{ item.name }}
+  </button>
+  <button matIconButton (click)="openCharacterDialog()">
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button matIconButton color="warn" (click)="openCharacterDialog()">
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>
 }
-<button mat-button (click)="openCharacterDialog()">
+<button class="add-btn" matButton (click)="openCharacterDialog()">
   <mat-icon>add</mat-icon>Add
 </button>
