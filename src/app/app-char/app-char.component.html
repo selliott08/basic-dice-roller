@@ -23,6 +23,7 @@
         <div class="fl-row" [formGroupName]="index">
           <mat-form-field>
             <mat-label>Class</mat-label>
+            <input type="hidden" formControlName="id" />
             <input matInput type="text" formControlName="class" />
 
             @if (e.controls['class']) {

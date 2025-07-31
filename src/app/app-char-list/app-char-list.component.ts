@@ -36,12 +36,19 @@ export class AppCharacterListComponent {
 
   constructor(public dialog: MatDialog) {}
 
-  openCharacterDialog() {
-    const dialogRef = this.dialog.open(AppCharacterComponent);
+  openCharacterDialog(id : number | null = null) {
+    const dialogRef = this.dialog.open(AppCharacterComponent, { data: { id } });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  deleteCharacter(id : number | null = null) {
+    if (id) {
+      db.characterClasses.where('characterId').equals(id).delete();
+      db.characters.delete(id);
+    }
   }
 
   async listCharacters() {

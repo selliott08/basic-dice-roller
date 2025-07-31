@@ -1,12 +1,12 @@
 @for (item of (list$ | async); track item.id) {
 <div mat-list-item class="list-item">
-  <button matButton class="label" (click)="openCharacterDialog()">
+  <button matButton class="label" (click)="openCharacterDialog(item.id)">
     {{ item.name }}
   </button>
-  <button matIconButton (click)="openCharacterDialog()">
+  <button matIconButton (click)="openCharacterDialog(item.id)">
     <mat-icon>edit</mat-icon>
   </button>
-  <button matIconButton color="warn" (click)="openCharacterDialog()">
+  <button matIconButton color="warn" (click)="deleteCharacter(item.id)">
     <mat-icon>delete</mat-icon>
   </button>
 </div>
