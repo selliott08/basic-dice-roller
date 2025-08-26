@@ -21,9 +21,10 @@
 </button>
 <p>app-dice-list works!</p>
 @for(element of dice; track element.id) {
-  <app-dice></app-dice>
+  {{element}}
 }
 @empty {
   <span>Please create some entries.</span>
 }
+<app-dice-list-elem></app-dice-list-elem>
 

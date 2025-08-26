@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { AppDiceComponent } from '../app-dice/app-dice.component';
 import { RollModel } from '../../db/roll';
 import { MatDialog } from '@angular/material/dialog';
+import { AppDiceListElemComponent } from '../app-dice-list-elem/app-dice-list-elem.component';
 
 @Component({
   selector: 'app-dice-list',
@@ -19,7 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatButtonModule,
-    AppDiceComponent,
+    AppDiceListElemComponent
   ],
 })
 export class AppDiceListComponent {
