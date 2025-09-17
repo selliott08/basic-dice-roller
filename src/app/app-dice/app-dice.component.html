@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>{{ title }}</h2>
+<h2 mat-dialog-title>{{ title }}{{characterId}}</h2>
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="fgRoll" class="fl-column">
     <div class="grow fl-column">
@@ -51,6 +51,7 @@
         @for (e of fgElements.controls; track e; let index = $index) {
         <div class="fl-row" [formGroupName]="index">
           <mat-form-field>
+            <input type="hidden" formControlName="id" />
             <mat-label>Roll</mat-label>
             <input matInput type="text" formControlName="value" />
 

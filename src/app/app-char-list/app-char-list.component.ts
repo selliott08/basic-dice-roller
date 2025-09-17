@@ -8,6 +8,7 @@ import { AppCharacterComponent } from '../app-char/app-char.component';
 import { db } from '../../db/db';
 import { liveQuery } from 'dexie';
 import { AsyncPipe } from '@angular/common';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-char-list',
@@ -34,7 +35,10 @@ export class AppCharacterListComponent {
 
   public list$ = liveQuery(() => this.listCharacters());
 
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    private appSvc: AppService,
+    public dialog: MatDialog
+  ) {}
 
   openCharacterDialog(id : number | null = null) {
     const dialogRef = this.dialog.open(AppCharacterComponent, { data: { id } });
@@ -48,6 +52,12 @@ export class AppCharacterListComponent {
     if (id) {
       db.characterClasses.where('characterId').equals(id).delete();
       db.characters.delete(id);
+    }
+  }
+
+  selectCharacter(id : number | null = null) {
+    if (id) {
+      this.appSvc.LoadCharacter(id);
     }
   }
 

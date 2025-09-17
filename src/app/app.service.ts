@@ -33,33 +33,40 @@ export class AppService {
   }
 
   public SaveCharacter(char: CharacterModel): Observable<any> {
-    return from(db.characters.put(char))
-      .pipe(
-        mergeMap((id) => {
-          char.classes?.forEach((fel) => {
-            fel.characterId = id;
-          });
-          return from(
-            db.characterClasses.where('characterId').equals(id).toArray()
-          );
-        })
-      )
-      .pipe(
-        mergeMap((classes) => {
-          // clean up old classes
-          let classIds: number[] = classes
-            .map((m) => m.id)
-            .filter((fel) => fel !== undefined);
-          return from(db.characterClasses.bulkDelete(classIds));
-        })
-      )
-      .pipe(
-        mergeMap(() => {
-          let classesToSave = char.classes ?? [];
+    return of(null);
+    // return from(db.characters.put(char))
+    //   .pipe(
+    //     mergeMap((id) => {
+    //       char.classes?.forEach((fel) => {
+    //         fel.characterId = id;
+    //       });
+    //       return from(
+    //         db.characterClasses.where('characterId').equals(id).toArray()
+    //       );
+    //     })
+    //   )
+    //   .pipe(
+    //     mergeMap((classes) => {
+    //       // clean up old classes
+    //       let classIds: number[] = classes
+    //         .map((m) => m.id)
+    //         .filter((fel) => fel !== undefined);
+    //       return from(db.characterClasses.bulkDelete(classIds));
+    //     })
+    //   )
+    //   .pipe(
+    //     mergeMap(() => {
+    //       let classesToSave = char.classes ?? [];
 
-          return db.characterClasses.bulkAdd(classesToSave);
-        })
-      );
+    //       return db.characterClasses.bulkAdd(classesToSave);
+    //     })
+    //   );
+  }
+
+  public LoadCharacter(charId: number) {
+    db.characters.where('id').equals(charId).first().then(char => {
+      this.character = char ?? null;
+    })
   }
 
   constructor() {}
