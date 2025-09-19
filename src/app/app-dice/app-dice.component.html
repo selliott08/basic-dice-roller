@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>{{ title }}{{characterId}}</h2>
+<h2 mat-dialog-title>{{ title }}</h2>
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="fgRoll" class="fl-column">
     <div class="grow fl-column">
@@ -84,5 +84,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
+  <button mat-button cdkFocusInitial (click)="save()">Ok</button>
 </mat-dialog-actions>

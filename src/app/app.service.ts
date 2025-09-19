@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { CharacterModel } from '../db/character';
 import { liveQuery } from 'dexie';
 import { db } from '../db/db';
@@ -9,6 +9,7 @@ export class AppService {
   private _character: CharacterModel | null = null;
 
   public characterList$ = liveQuery(() => db.characters.toArray());
+  public character$ = signal<CharacterModel | null>(null);
 
   public get character(): CharacterModel | null {
     return this._character;
@@ -27,40 +28,10 @@ export class AppService {
           if (this._character) {
             this._character.rolls = results;
           }
+          this.character$.set(this._character);
         },
       });
     }
-  }
-
-  public SaveCharacter(char: CharacterModel): Observable<any> {
-    return of(null);
-    // return from(db.characters.put(char))
-    //   .pipe(
-    //     mergeMap((id) => {
-    //       char.classes?.forEach((fel) => {
-    //         fel.characterId = id;
-    //       });
-    //       return from(
-    //         db.characterClasses.where('characterId').equals(id).toArray()
-    //       );
-    //     })
-    //   )
-    //   .pipe(
-    //     mergeMap((classes) => {
-    //       // clean up old classes
-    //       let classIds: number[] = classes
-    //         .map((m) => m.id)
-    //         .filter((fel) => fel !== undefined);
-    //       return from(db.characterClasses.bulkDelete(classIds));
-    //     })
-    //   )
-    //   .pipe(
-    //     mergeMap(() => {
-    //       let classesToSave = char.classes ?? [];
-
-    //       return db.characterClasses.bulkAdd(classesToSave);
-    //     })
-    //   );
   }
 
   public LoadCharacter(charId: number) {
@@ -69,5 +40,11 @@ export class AppService {
     })
   }
 
-  constructor() {}
+  constructor() {
+    this.characterList$.subscribe({
+      next: (characters) => {
+        this.character = characters.shift() ?? null;
+      }
+    });
+  }
 }
