@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { CharacterModel } from '../db/character';
 import { liveQuery } from 'dexie';
 import { db } from '../db/db';
-import { forkJoin, from, mergeMap, Observable, of } from 'rxjs';
+import { forkJoin, from, map, mergeMap, Observable, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AppService {
@@ -16,20 +16,12 @@ export class AppService {
   }
 
   public set character(val: CharacterModel | null) {
-    this._character = val;
-    if (this._character != null) {
-      liveQuery(() =>
-        db.rolls
-          .where('characterId')
-          .equals(this._character?.id ?? -1)
-          .toArray()
-      ).subscribe({
-        next: (results) => {
-          if (this._character) {
-            this._character.rolls = results;
-          }
+    if (val != null) {
+      this.LoadRolls(val).subscribe({
+        next: (char) => {
+          this._character = char;
           this.character$.set(this._character);
-        },
+        }
       });
     }
   }
@@ -40,10 +32,40 @@ export class AppService {
     })
   }
 
+  public LoadRolls(char: CharacterModel): Observable<CharacterModel> {
+    return from(
+      db.rolls
+      .where('characterId')
+      .equals(char?.id ?? -1)
+      .toArray()
+    ).pipe(mergeMap((results) => {
+      if (char) {
+        char.rolls = results;
+      }
+      return this.LoadRollElements(char);
+    }));
+  }
+
+  public LoadRollElements(char: CharacterModel): Observable<CharacterModel> {
+    const rollIdList: number[] = (char?.rolls?.map(m => m.id) as number[]) ?? ([] as number[]);
+    return from(
+      db.rollElements.where('rollId').anyOf(rollIdList).toArray()
+    ).pipe(map((results) => {
+      if (char) {
+        char.rolls?.forEach(roll => {
+          roll.elements = results?.filter(fel => fel.rollId === roll.id) ?? [];
+        })
+      }
+      return char;
+    }));
+  }
+
   constructor() {
     this.characterList$.subscribe({
       next: (characters) => {
-        this.character = characters.shift() ?? null;
+        if (characters && characters.length > 0) {
+          this.character = characters[0];
+        }
       }
     });
   }

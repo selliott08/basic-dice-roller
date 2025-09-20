@@ -9,6 +9,7 @@ import { db } from '../../db/db';
 import { liveQuery } from 'dexie';
 import { AsyncPipe } from '@angular/common';
 import { AppService } from '../app.service';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-char-list',
@@ -50,6 +51,13 @@ export class AppCharacterListComponent {
 
   deleteCharacter(id : number | null = null) {
     if (id) {
+      from(db.rolls.where('characterId').equals(id).toArray())
+      .subscribe({
+        next: (rolls) => {
+          db.rollElements.where('rollId').anyOf(rolls.map(m => m.id) as number[]).delete();
+        }
+      });
+      db.rolls.where('characterId').equals(id).delete()
       db.characterClasses.where('characterId').equals(id).delete();
       db.characters.delete(id);
     }

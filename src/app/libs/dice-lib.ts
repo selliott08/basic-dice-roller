@@ -14,7 +14,7 @@ export function ConvertString(input: string): string[] {
 
   retValues.push(input);
 
-  retValues.push('' + eval(input));
+  retValues.push('' + customEval(input));
   return retValues;
 }
 
@@ -25,14 +25,18 @@ export function convertRoll(input: string): string {
   }
   let output = '';
 
-  for (let i = 0; i < eval(vals[0]); i++) {
+  for (let i = 0; i < customEval(vals[0]); i++) {
     if (output !== '') {
       output += ' + ';
     }
-    output = output + getRandomInt(eval(vals[1]));
+    output = output + getRandomInt(customEval(vals[1]));
   }
 
   return '' + output;
+}
+
+function customEval(v:any): any {
+  return (0,eval)(v);
 }
 
 export function getRandomInt(max: number): number {

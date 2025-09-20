@@ -14,6 +14,7 @@ import { MatIcon } from '@angular/material/icon';
 import { db } from '../../db/db';
 import { RollElementModel } from '../../db/roll';
 import { AppService } from '../app.service';
+import { forkJoin, from } from 'rxjs';
 
 @Component({
   selector: 'app-dice',
@@ -51,7 +52,34 @@ export class AppDiceComponent {
     private dialogRef: MatDialogRef<AppDiceComponent>,
     private appSvc: AppService
   ) 
-  {}
+  {
+    this.deleteElement(0);
+    this.addElement();
+    
+    if (data?.id) {
+      this.diceId = data.id;
+      forkJoin({
+        roll: from(db.rolls.where("id").equals(data.id).first()),
+        rollEl: from(db.rollElements.where("rollId").equals(data.id).toArray())
+      })
+      .subscribe({
+        next: (x) => {
+          if (x.roll) {
+            this.deleteElement(0);
+            this.fcName.setValue(x.roll.name);
+            this.fcDescription.setValue(x.roll.description);
+            x.rollEl.forEach((c, i) => {
+              this.addElement();
+              let elem = this.fgElements.at(i);
+              elem.controls['id'].setValue(c.id);
+              elem.controls['value'].setValue(c.value);
+              elem.controls['damageType'].setValue(c.damageType);
+            });
+          }
+        }
+      })
+    }
+  }
 
   public get fcName(): FormControl<string | null> {
     return this.fgRoll.controls.name;
@@ -65,12 +93,11 @@ export class AppDiceComponent {
 
   private elementsGroup(): FormGroup {
     return new FormGroup({
+      id: new FormControl<number | null>(null),
       value: new FormControl<string | null>('', {
         validators: Validators.required,
       }),
-      damageType: new FormControl<number | null>(null, {
-        validators: Validators.required,
-      }),
+      damageType: new FormControl<number | null>(null),
     });
   }
 

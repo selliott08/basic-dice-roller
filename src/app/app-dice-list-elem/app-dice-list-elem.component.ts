@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RollModel } from '../../db/roll';
 import { LongPressDirective } from '../longpress.directive';
+import { ConvertString, convertRoll } from '../libs/dice-lib';
 
 @Component({
   selector: 'app-dice-list-elem',
@@ -28,7 +29,9 @@ export class AppDiceListElemComponent {
   }
 
   onClick() {
-    console.log('on click');
+    this.roll()?.elements?.forEach(el => {
+      console.log(ConvertString(el.value) + ' ' + el.damageType);
+    })
   }
 
   openDialog() {

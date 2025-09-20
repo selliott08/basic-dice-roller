@@ -11,6 +11,8 @@ import { AppDiceListElemComponent } from '../app-dice-list-elem/app-dice-list-el
 import { AppService } from '../app.service';
 import { AsyncPipe } from '@angular/common';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { db } from '../../db/db';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-dice-list',
@@ -59,19 +61,27 @@ export class AppDiceListComponent {
     });
   }
 
-  openRollDialog() {
-    const dialogRef = this.dialog.open(AppDiceComponent);
+  openRollDialog(id : number | null = null) {
+    const dialogRef = this.dialog.open(AppDiceComponent, { data: { id } });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      this.appSvc.LoadCharacter(this.appSvc.character?.id ?? 0);
     });
   }
 
   onDelete(id: number) {
-    console.log('delete', id);
+    forkJoin({
+      elements: db.rollElements.where('rollId').equals(id).delete(),
+      rolls: db.rolls.where('id').equals(id).delete()
+    })
+    .subscribe({
+      next: () => {
+        this.appSvc.LoadCharacter(this.appSvc.character?.id ?? 0);
+      }
+    });
   }
 
   onEdit(id: number) {
-    console.log('edit', id);
+    this.openRollDialog(id);
   }
 }
