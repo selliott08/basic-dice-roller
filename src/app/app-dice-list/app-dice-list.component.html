@@ -19,12 +19,10 @@
 <button mat-button (click)="openRollDialog()">
   <mat-icon>add</mat-icon>Add
 </button>
-<p>app-dice-list works!</p>
 @for(element of dice; track element.id) {
-  {{element}}
+  <app-dice-list-elem [roll]="element" (onDelete)="onDelete($event)" (onEdit)="onEdit($event)"></app-dice-list-elem>
 }
 @empty {
   <span>Please create some entries.</span>
 }
-<app-dice-list-elem></app-dice-list-elem>
 

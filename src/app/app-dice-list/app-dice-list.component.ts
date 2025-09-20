@@ -53,9 +53,9 @@ export class AppDiceListComponent {
   }
 
   doSearch() {
-    let srchVal = this.fgFilter.controls.search.value + '';
+    let srchVal = (this.fgFilter.controls.search.value + '').toLowerCase();
     this.dice = this._dice.filter(el => {
-      return el.name.includes(srchVal) || el.description.includes(srchVal) 
+      return el.name?.toLowerCase().includes(srchVal) || el.description?.toLowerCase().includes(srchVal) 
     });
   }
 
@@ -65,5 +65,13 @@ export class AppDiceListComponent {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  onDelete(id: number) {
+    console.log('delete', id);
+  }
+
+  onEdit(id: number) {
+    console.log('edit', id);
   }
 }

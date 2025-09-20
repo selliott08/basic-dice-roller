@@ -1,4 +1,21 @@
-<div class="item">
-    <div class="title">Title</div>
-    <div class="summary">Summary that should be fairly long to test the summary line</div>
+<div class="item" longPress (longPress)="onLongPress()">
+    <div class="item-body">
+        <div (click)="onClick()">
+            <div class="title unselectable">{{name()}}</div>
+            <div class="summary unselectable">{{desc()}}</div>
+        </div>
+        @if(editMode()) {
+            <div class="overlay"></div>
+        }    
+    </div>
+    @if(editMode()) {
+        <div>
+            <button matIconButton (click)="openDialog()">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button matIconButton color="warn" (click)="delete()">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>    
+    }
 </div>
