@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RollModel } from '../../db/roll';
 import { LongPressDirective } from '../longpress.directive';
 import { ConvertString, convertRoll } from '../libs/dice-lib';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-dice-list-elem',
@@ -24,13 +25,15 @@ export class AppDiceListElemComponent {
   public onDelete = output<number>();
   public onEdit = output<number>();
 
+  constructor(private appSvc: AppService) {}
+
   onLongPress() {
     this.editMode.set(!this.editMode());
   }
 
   onClick() {
     this.roll()?.elements?.forEach(el => {
-      console.log(ConvertString(el.value) + ' ' + el.damageType);
+      this.appSvc.addNotes(ConvertString(el.value) + ' ' + el.damageType);
     })
   }
 

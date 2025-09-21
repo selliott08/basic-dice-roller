@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AppCharacterListComponent } from '../app-char-list/app-char-list.component';
 import { AppDiceListComponent } from '../app-dice-list/app-dice-list.component';
+import { AppNotesComponent } from '../app-notes/app-notes.component';
 
 @Component({
   selector: 'app-layout',
@@ -25,6 +26,7 @@ import { AppDiceListComponent } from '../app-dice-list/app-dice-list.component';
     AppCharacterListComponent,
     AppDiceListComponent,
     AsyncPipe,
+    AppNotesComponent
   ],
 })
 export class AppLayoutComponent {

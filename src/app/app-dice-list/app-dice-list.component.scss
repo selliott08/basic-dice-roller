@@ -12,3 +12,16 @@
 .grow {
   flex-grow: 1;
 }
+
+.top {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: .25rem;
+}
+
+.list-container {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  gap: .25rem;
+}

@@ -8,6 +8,7 @@ import { forkJoin, from, map, mergeMap, Observable, of } from 'rxjs';
 export class AppService {
   private _character: CharacterModel | null = null;
 
+  public notes: any[] = [];
   public characterList$ = liveQuery(() => db.characters.toArray());
   public character$ = signal<CharacterModel | null>(null);
 
@@ -58,6 +59,10 @@ export class AppService {
       }
       return char;
     }));
+  }
+
+  public addNotes(a: any) {
+    this.notes.unshift(a);
   }
 
   constructor() {

@@ -1,28 +1,32 @@
-<div>
-  <form [formGroup]="fgFilter" class="fl-column">
-    <mat-form-field class="grow">
-      <mat-label>Search</mat-label>
-      <input matInput type="text" [formControl]="fgFilter.controls.search" />
-      @if (fgFilter.controls.search.value) {
-        <button
-          matSuffix
-          mat-icon-button
-          aria-label="Clear"
-          (click)="fgFilter.controls.search.setValue('')"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      }
-    </mat-form-field>
-  </form>
+<div class="top">
+  <div>
+    <form [formGroup]="fgFilter" class="fl-column">
+      <mat-form-field class="grow">
+        <mat-label>Search</mat-label>
+        <input matInput type="text" [formControl]="fgFilter.controls.search" />
+        @if (fgFilter.controls.search.value) {
+          <button
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="fgFilter.controls.search.setValue('')"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+      </mat-form-field>
+    </form>
+  </div>
+  <button mat-button (click)="openRollDialog()">
+    <mat-icon>add</mat-icon>Add
+  </button>
 </div>
-<button mat-button (click)="openRollDialog()">
-  <mat-icon>add</mat-icon>Add
-</button>
-@for(element of dice; track element.id) {
-  <app-dice-list-elem [roll]="element" (onDelete)="onDelete($event)" (onEdit)="onEdit($event)"></app-dice-list-elem>
-}
-@empty {
-  <span>Please create some entries.</span>
-}
+<div class="list-container">
+  @for(element of dice; track element.id) {
+    <app-dice-list-elem [roll]="element" (onDelete)="onDelete($event)" (onEdit)="onEdit($event)"></app-dice-list-elem>
+  }
+  @empty {
+    <span>Please create some entries.</span>
+  }
+</div>
 

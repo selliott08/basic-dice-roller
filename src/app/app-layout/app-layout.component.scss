@@ -18,5 +18,20 @@
 
 .app-body {
   padding: 1rem;
-  height: 100%;
+  height: calc(100% - 64px - 2rem);
+  display: flex;
+  flex-direction: column;
+
+  .list-container {
+    flex-grow: 1;
+    overflow: hidden;
+  }
+
+  .notes-container {
+    margin-top: .25rem;
+    height: 20vh;
+    min-height: 3rem;
+    display: flex;
+    flex-direction: column;
+  }
 }
