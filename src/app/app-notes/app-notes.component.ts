@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+
 import { Component } from "@angular/core";
 import { AppService } from "../app.service";
 
@@ -7,9 +7,7 @@ import { AppService } from "../app.service";
   templateUrl: './app-notes.component.html',
   styleUrl: './app-notes.component.scss',
   standalone: true,
-  imports: [
-    CommonModule
-  ],
+  imports: [],
 })
 export class AppNotesComponent {
   public get notes(): any[] { return this.appSvc.notes; }

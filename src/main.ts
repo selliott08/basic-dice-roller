@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import 'zone.js';
 import { AppLayoutComponent } from './app/app-layout/app-layout.component';
@@ -17,5 +17,5 @@ export class App {
   name = 'Angular';
 }
 
-bootstrapApplication(App, { providers: [provideAnimations(), provideAnimationsAsync()] });
+bootstrapApplication(App, { providers: [provideZoneChangeDetection(),provideAnimations(), provideAnimationsAsync()] });
 //bootstrapApplication(App);
