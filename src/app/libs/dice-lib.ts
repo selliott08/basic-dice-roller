@@ -12,7 +12,7 @@ export function ConvertString(input: string): string[] {
     input = input.replace(valsToConvert[i], convertedVals[i]);
   });
 
-  retValues.push(input);
+  retValues.push('' + input);
 
   retValues.push('' + customEval(input));
   return retValues;
